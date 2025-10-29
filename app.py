@@ -1,4 +1,4 @@
-# main.py – VERSION SANS OS/SHUTIL/TEMPFILE (100% COMPATIBLE RENDER)
+# main.py – VERSION FINALE AVEC SIDEBAR (100% COMPATIBLE RENDER)
 import streamlit as st
 from io import StringIO
 import contextlib
@@ -6,7 +6,6 @@ import contextlib
 # === IMPORT CORE ===
 try:
     import core
-    core.CONFIG_PATH = "config_rewards_champ.txt"
     from core import main as generate_palmares
 except ImportError as e:
     st.error(f"Erreur import core.py : {e}")
@@ -16,18 +15,56 @@ except ImportError as e:
 st.set_page_config(page_title="Podium Rezé Échecs", page_icon="♟️", layout="centered")
 
 # === TITRE ===
-st.title("Podium Rezé Échecs – Générateur de Palmarès")
+st.title("Podium Échecs – Générateur de Palmarès")
 st.markdown("Libre-service • PDF + TXT en 1 clic")
+
+# === EXEMPLE CONFIG ===
+example_config = """URLS: https://echecs.asso.fr/Resultats.aspx?URL=Tournois/Id/65456/65456&Action=Cl
+
+CATEGORIE: Podium Petits Poussins
+RANG: 1-3
+PRIX: 1er Petit Poussin|2ème Petit Poussin|3ème Petit Poussin
+CONDITION: category == "ppo"
+ORDRE: 1
+
+CATEGORIE: Podium Petites Poussines
+RANG: 1-3
+PRIX: 1er Petite Poussine|2ème Petite Poussine|3ème Petite Poussine
+CONDITION: category == "ppo" et genre == "f"
+ORDRE: 2
+
+CATEGORIE: Meilleure féminine
+RANG: best
+PRIX: Coupe Féminine
+CONDITION: genre == "f"
+ORDRE: 3
+"""
+
+# === SIDEBAR ===
+with st.sidebar:
+    st.header("📋 Mode d'emploi")
+    st.markdown("""
+    1. **Télécharge** l'exemple ci-dessous  
+    2. **Modifie** les URLs et catégories  
+    3. **Upload** ton fichier `.txt`  
+    4. **Clique** sur Générer  
+    """)
+    st.download_button(
+        label="📥 Télécharger exemple config",
+        data=example_config,
+        file_name="exemple_config.txt",
+        mime="text/plain"
+    )
 
 # === UPLOAD ===
 uploaded_file = st.file_uploader("Fichier config (.txt)", type="txt")
 
 if uploaded_file is not None:
-    # === ÉCRIRE DIRECTEMENT LE FICHIER ATTENDU ===
+    # === ÉCRITURE DIRECTE ===
     with open("config_rewards_champ.txt", "wb") as f:
         f.write(uploaded_file.getvalue())
 
-    # Injecter le chemin dans core.py
+    # Injecter le chemin
     core.CONFIG_PATH = "config_rewards_champ.txt"
 
     if st.button("Générer le palmarès"):
@@ -39,7 +76,6 @@ if uploaded_file is not None:
 
                 logs = log_capture.getvalue()
 
-                # === LIRE LES FICHIERS ===
                 pdf_path = "palmares.pdf"
                 txt_path = "palmares.txt"
 
@@ -60,7 +96,7 @@ if uploaded_file is not None:
                         with st.expander("Logs"):
                             st.text(logs)
                 except FileNotFoundError:
-                    st.error("Fichiers PDF/TXT non générés.")
+                    st.error("Fichiers non générés.")
                     with st.expander("Logs"):
                         st.text(logs or "Aucun log")
 

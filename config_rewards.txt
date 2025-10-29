@@ -1,0 +1,55 @@
+URLS: https://echecs.asso.fr/Resultats.aspx?URL=Tournois/Id/66987/66987&Action=Cl | https://echecs.asso.fr/Resultats.aspx?URL=Tournois/Id/67071/67071&Action=Cl
+
+CATEGORY: Podium Général
+RANK: 1-3
+PRIZE: Médaille d'or|Médaille d'argent|Médaille de bronze
+CONDITION: none
+ORDER: 1
+
+CATEGORY: Podium Cadets
+RANK: 1-3
+PRIZE: 1er Cadet|2ème Cadet|3ème Cadet
+CONDITION: category == "cad"
+ORDER: 2
+
+CATEGORY: Podium Minimes
+RANK: 1-3
+PRIZE: 1er Minime|2ème Minime|3ème Minime
+CONDITION: category == "min"
+ORDER: 3
+
+CATEGORY: Podium Benjamins
+RANK: 1-3
+PRIZE: 1er Benjamin|2ème Benjamin|3ème Benjamin
+CONDITION: category == "ben"
+ORDER: 4
+
+CATEGORY: Podium Pupilles
+RANK: 1-3
+PRIZE: 1er Pupille|2ème Pupille|3ème Pupille
+CONDITION: category == "pup"
+ORDER: 5
+
+CATEGORY: Meilleur Poussin
+RANK: best
+PRIZE: Meilleur Poussin
+CONDITION: category == "pou"
+ORDER: 6
+
+CATEGORY: Meilleur Petit Poussin
+RANK: best
+PRIZE: Meilleur Petit Poussin
+CONDITION: category == "ppo"
+ORDER: 7
+
+CATEGORY: Meilleure féminine
+RANK: best
+PRIZE: Coupe Féminine
+CONDITION: genre == "f"
+ORDER: 8
+
+CATEGORY: Meilleur Vétéran
+RANK: best
+PRIZE: Meilleur Vétéran
+CONDITION: category == "vet"
+ORDER: 9

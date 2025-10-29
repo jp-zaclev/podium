@@ -1,0 +1,73 @@
+URLS: https://echecs.asso.fr/Resultats.aspx?URL=Tournois/Id/65456/65456&Action=Cl | https://echecs.asso.fr/Resultats.aspx?URL=Tournois/Id/65457/65457&Action=Cl | https://echecs.asso.fr/Resultats.aspx?URL=Tournois/Id/65461/65461&Action=Cl | https://echecs.asso.fr/Resultats.aspx?URL=Tournois/Id/65462/65462&Action=Cl | https://echecs.asso.fr/Resultats.aspx?URL=Tournois/Id/65463/65463&Action=Cl | https://echecs.asso.fr/Resultats.aspx?URL=Tournois/Id/65464/65464&Action=Cl
+
+CATEGORIE: Podium Cadets Mixte
+RANG: 1-3
+PRIX: 1er Cadet|2ème Cadet|3ème Cadet
+CONDITION: category == "cad"
+ORDRE: 1
+
+CATEGORIE: Podium Cadets Filles
+RANG: 1-3
+PRIX: 1er Cadette|2ème Cadette|3ème Cadette
+CONDITION: category == "cad" et genre == "f"
+ORDRE: 2
+
+CATEGORIE: Podium Minimes Mixtes
+RANG: 1-3
+PRIX: 1er Minime|2ème Minime|3ème Minime
+CONDITION: category == "min"
+ORDRE: 3
+
+CATEGORIE: Podium Minimes Filles
+RANG: 1-3
+PRIX: 1er Minime|2ème Minime|3ème Minime
+CONDITION: category == "min" et genre == "f"
+ORDRE: 4
+
+CATEGORIE: Podium Benjamins
+RANG: 1-3
+PRIX: 1er Benjamin|2ème Benjamin|3ème Benjamin
+CONDITION: category == "ben"
+ORDRE: 5
+
+CATEGORIE: Podium Benjamines Filles
+RANG: 1-3
+PRIX: 1er Benjamine|2ème Benjamine|3ème Benjamine
+CONDITION: category == "ben" et genre == "f"
+ORDRE: 6
+
+CATEGORIE: Podium Pupilles
+RANG: 1-3
+PRIX: 1er Pupille|2ème Pupille|3ème Pupille
+CONDITION: category == "pup"
+ORDRE: 7
+
+CATEGORIE: Podium Pupilles Filles
+RANG: 1-3
+PRIX: 1er Pupille|2ème Pupille|3ème Pupille
+CONDITION: category == "pup" et genre == "f"
+ORDRE: 8
+
+CATEGORIE: Podium Poussins
+RANG: 1-3
+PRIX: 1er Poussin|2ème Poussin|3ème Poussin
+CONDITION: category == "pou"
+ORDRE: 9
+
+CATEGORIE: Podium Poussines Filles
+RANG: 1-3
+PRIX: 1er Poussine|2ème Poussine|3ème Poussine
+CONDITION: category == "pou" et genre == "f"
+ORDRE: 10
+
+CATEGORIE: Podium Petits Poussins
+RANG: 1-3
+PRIX: 1er Petit Poussin|2ème Petit Poussin|3ème Petit Poussin
+CONDITION: category == "ppo"
+ORDRE: 11
+
+CATEGORIE: Podium Petites Poussines Filles
+RANG: 1-3
+PRIX: 1er Petite Poussine|2ème Petite Poussine|3ème Petite Poussine
+CONDITION: category == "ppo" et genre == "f"
+ORDRE: 12

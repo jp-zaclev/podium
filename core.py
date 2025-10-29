@@ -37,7 +37,7 @@ def extract_tournament_data(url: str) -> tuple[List[Dict], str]:
         if not table:
             raise ValueError("Tableau non trouvé.")
         
-        # Titre du tournoi
+        # === Titre du tournoi ===
         title_row = table.find('tr', class_='papi_titre')
         if title_row:
             full_text = title_row.find('td').get_text(strip=True)
@@ -51,7 +51,7 @@ def extract_tournament_data(url: str) -> tuple[List[Dict], str]:
 
         for row in rows:
             cols = row.find_all('td')
-            if len(cols) < 9:
+            if len(cols) < 11:  # Besoin de 11 colonnes
                 continue
 
             try:
@@ -59,25 +59,24 @@ def extract_tournament_data(url: str) -> tuple[List[Dict], str]:
                 rank_text = cols[0].get_text(strip=True)
                 rank = int(rank_text) if rank_text.isdigit() else 999
 
-                # === 2. Nom + Elo (dans la même colonne : cols[2]) ===
-                name_elo_cell = cols[2]
-                full_text = name_elo_cell.get_text(strip=True)
-                # Sépare le dernier mot (Elo) du reste (nom)
-                parts = full_text.rsplit(maxsplit=1)
-                name = parts[0].strip()
-                elo_text = parts[1] if len(parts) > 1 else "0"
+                # === 2. Nom ===
+                name_tag = cols[2].find('a')
+                name = name_tag.get_text(strip=True) if name_tag else cols[2].get_text(strip=True).strip()
+
+                # === 3. Elo ===
+                elo_text = cols[3].get_text(strip=True)
                 elo = int(elo_text) if elo_text.isdigit() else 0
 
-                # === 3. Catégorie + Genre ===
+                # === 4. Catégorie + Genre ===
                 cat_full = cols[4].get_text(strip=True)
                 category = cat_full[:-1].lower() if cat_full and cat_full[-1] in 'MFmf' else cat_full.lower()
                 genre = 'f' if cat_full[-1].upper() == 'F' else 'm'
 
-                # === 4. Points ===
+                # === 5. Points ===
                 points_text = cols[8].get_text(strip=True)
                 points = float(points_text.replace('½', '.5').replace(',', '.')) if points_text else 0.0
 
-                # === 5. Club ===
+                # === 6. Club ===
                 club_raw = cols[7].get_text(separator=' ', strip=True)
                 club = re.sub(r'\s+', ' ', club_raw.replace('\xa0', ' ')).strip() or "Club inconnu"
 

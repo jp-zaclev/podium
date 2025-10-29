@@ -247,7 +247,8 @@ def generate_text_all(awards_per_tournament: List[tuple[str, str, List[Dict]]], 
 
 # === MAIN ===
 def main():
-    rules, urls = load_reward_rules("config_rewards_champ.txt")
+    config_file = os.environ.get('PODIUM_CONFIG', 'config_rewards_champ.txt')
+    rules, urls = load_reward_rules(config_file)
     awards_per_tournament = []
     for i, url in enumerate(urls, start=1):
         print(f"\n[Traitement tournoi {i}/{len(urls)}] : {url}")

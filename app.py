@@ -6,6 +6,7 @@ import contextlib
 # === IMPORT CORE ===
 try:
     import core
+    core.CONFIG_PATH = "config_rewards_champ.txt"
     from core import main as generate_palmares
 except ImportError as e:
     st.error(f"Erreur import core.py : {e}")

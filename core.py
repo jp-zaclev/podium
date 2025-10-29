@@ -156,19 +156,56 @@ def validate_and_add_rule(rule_dict: Dict, rules_list: List[Dict], line_num: int
     
 # === ÉVALUATION CONDITION ===
 def evaluate_condition(player: Dict, condition: str) -> bool:
-    if condition.strip().lower() == 'none':
+    """
+    Évalue une condition sur un joueur.
+    Supporte :
+    - category == "cad"
+    - genre == "f"
+    - elo < 1500
+    - elo >= 1200
+    - category == "cad" et genre == "f"
+    - category == "min" ou elo > 1000
+    """
+    if not condition or condition.strip().lower() == 'none':
         return True
-    cond = condition.strip().lower()
-    if ' et ' in cond:
-        parts = [p.strip() for p in cond.split('et')]
+
+    # Nettoyage
+    condition = condition.strip()
+    if ' et ' in condition.lower():
+        parts = [p.strip() for p in condition.split(' et ')]
         return all(evaluate_single_cond(player, p) for p in parts)
-    return evaluate_single_cond(player, cond)
+    if ' ou ' in condition.lower():
+        parts = [p.strip() for p in condition.split(' ou ')]
+        return any(evaluate_single_cond(player, p) for p in parts)
+
+    return evaluate_single_cond(player, condition)
+
 
 def evaluate_single_cond(player: Dict, cond: str) -> bool:
+    """Évalue une condition unique (ex: elo < 1500)"""
+    cond = cond.strip()
+
+    # Égalité de chaîne (insensible à la casse)
     if '==' in cond:
-        left, right = [x.strip().strip('"\'') for x in cond.split('==', 1)]
-        val = player.get(left, '')
-        return str(val).upper() == right.upper()
+        key, value = [x.strip().strip('"\'') for x in cond.split('==', 1)]
+        player_val = str(player.get(key, '')).strip()
+        return player_val.upper() == value.upper()
+
+    # Comparaisons numériques : <, <=, >, >=
+    for op in ['<', '<=', '>', '>=']:
+        if op in cond:
+            try:
+                key, value = [x.strip() for x in cond.split(op, 1)]
+                player_val = player.get(key, 0)
+                if not isinstance(player_val, (int, float)):
+                    player_val = 0
+                value = float(value)
+                if op == '<':  return player_val < value
+                if op == '<=': return player_val <= value
+                if op == '>':  return player_val > value
+                if op == '>=': return player_val >= value
+            except:
+                return False
     return False
 
 # === ATTRIBUTION RÉCOMPENSES (FRANÇAIS) ===

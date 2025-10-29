@@ -9,6 +9,10 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import cm
 
+# Chemin du fichier config (injecté par main.py)
+CONFIG_PATH = "config_rewards_champ.txt"  # Par défaut
+
+
 # === CLÉS AUTORISÉES DANS CONFIG ===
 ALLOWED_KEYS = {"URLS", "CATEGORY", "RANK", "PRIZE", "CONDITION", "ORDER"}
 
@@ -247,8 +251,8 @@ def generate_text_all(awards_per_tournament: List[tuple[str, str, List[Dict]]], 
 
 # === MAIN ===
 def main():
-    config_file = os.environ.get('PODIUM_CONFIG', 'config_rewards_champ.txt')
-    rules, urls = load_reward_rules(config_file)
+    from . import CONFIG_PATH
+    rules, urls = load_reward_rules(CONFIG_PATH)
     awards_per_tournament = []
     for i, url in enumerate(urls, start=1):
         print(f"\n[Traitement tournoi {i}/{len(urls)}] : {url}")

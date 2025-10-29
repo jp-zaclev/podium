@@ -53,15 +53,20 @@ def extract_tournament_data(url: str) -> tuple[List[Dict], str]:
                 name_tag = cols[2].find('a')
                 name = name_tag.get_text(strip=True) if name_tag else cols[2].get_text(strip=True).strip()
                 cat_full = cols[4].get_text(strip=True)
+                
                 club_raw = cols[7].get_text(separator=' ', strip=True)  # Confirmé correct
                 club = re.sub(r'\s+', ' ', club_raw.replace('\xa0', ' ')).strip() or "Club inconnu"
                 points_text = cols[8].get_text(strip=True)
                 points = float(points_text.replace('½', '.5'))
                 category = cat_full[:-1].upper() if cat_full and cat_full[-1] in 'MFmf' else cat_full.upper()
                 genre = cat_full[-1].upper() if cat_full and cat_full[-1] in 'MFmf' else None
+                # Dans la boucle des joueurs
+                elo_text = cols[3].get_text(strip=True)
+                elo = int(elo_text) if elo_text.isdigit() else 0
                 players.append({
                     'rank': rank, 'name': name, 'category': category,
-                    'genre': genre, 'points': points, 'club': club
+                    'genre': genre, 'points': points, 'club': club,
+                    'elo': elo
                 })
             except:
                 continue

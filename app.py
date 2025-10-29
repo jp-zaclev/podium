@@ -1,11 +1,11 @@
 # app.py – Interface Web Streamlit
 import streamlit as st
-import pandas as pd
-from io import BytesIO
 import os
-import sys
-import tempfile
 import shutil
+import tempfile
+from io import StringIO
+import contextlib
+import sys
 
 # Ajouter le chemin du script core
 sys.path.append(os.path.dirname(__file__))
@@ -69,26 +69,21 @@ if uploaded_file is not None:
         tmp_file.write(uploaded_file.getvalue())
         config_path = tmp_file.name
 
-    # Copier le fichier temporaire à l'emplacement attendu par core.py
+    # Copier vers le fichier attendu par core.py
     target_config = "config_rewards_champ.txt"
     shutil.copyfile(config_path, target_config)
 
     if st.button("🚀 Générer le palmarès"):
         with st.spinner("Scraping des tournois et génération en cours..."):
             try:
-                # Exécute la fonction principale
-                from io import StringIO
-                import contextlib
-
                 log_capture = StringIO()
                 with contextlib.redirect_stdout(log_capture):
                     with contextlib.redirect_stderr(log_capture):
-                        # Appelle ton main() qui utilise config_rewards_champ.txt
-                        generate_palmares()
+                        generate_palmares()  # core.py lit config_rewards_champ.txt
 
                 logs = log_capture.getvalue()
 
-                # === LIRE LES FICHIERS GÉNÉRÉS ===
+                # === FICHIERS GÉNÉRÉS ===
                 pdf_path = "palmares.pdf"
                 txt_path = "palmares.txt"
 
@@ -127,8 +122,8 @@ if uploaded_file is not None:
             except Exception as e:
                 st.error(f"Erreur : {e}")
             finally:
-                # Nettoyage
-                for f in [config_path, target_config, "palmares.pdf", "palmares.txt"]:
+                # Nettoyage sécurisé
+                for f in [config_path, target_config, pdf_path, txt_path]:
                     if os.path.exists(f):
                         try:
                             os.remove(f)
